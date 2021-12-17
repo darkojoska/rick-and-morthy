@@ -15,8 +15,8 @@ function useFetch<T = unknown>(url: string): IState<T> {
     function fetchData() {
         axios.get(url)
             .then(res => {
-                const { data } = res;
-                setData(data.results);
+                const { data } = res;            
+                setData(data.results ? data.results : data);
             })
             .catch(error => {
                 setError(true);
