@@ -1,10 +1,13 @@
-import React from 'react';
 import './App.css';
+import CharactersGrid from './components/CharactersGrid';
 
 function App() {
   return (
     <div className="App">
-      <h2 className='text-3xl font-bold underline'>Hello there!</h2>
+      <div className="content container px-4 mx-auto max-w-screen-xl">
+        <h2 className='my-16'>Rick and Marthy</h2>
+        <CharactersGrid />
+      </div>
     </div>
   );
 }
