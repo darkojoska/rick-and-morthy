@@ -22,11 +22,11 @@ export default function CharactersGrid() {
 
     return (
         <>
-            <h2 className='my-16'>Rick and Marthy</h2>
+            <h2 className='my-16'>All characters</h2>
             <div className="grid gap-16 mb-24 justify-center md:grid-cols-2 lg:grid-cols-3">
                 {
                     data?.map(item =>
-                        <Link to={`characters/${item.id}`} key={item.id}>
+                        <Link to={`characters/${item.id}`} key={item.id} className="justify-self-center">
                             <Card id={item.id} name={item.name} image={item.image} />
                         </Link>
                     )

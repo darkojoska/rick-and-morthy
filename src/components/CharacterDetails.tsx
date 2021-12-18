@@ -31,9 +31,9 @@ function CharacterDetails() {
 
     return (
         <>
-            <h2 className="my-16">Character details for data</h2>
+            <h2 className="my-16">Character details</h2>
             <div className="flex flex-col mb-20 justify-center md:flex-row">
-                <img src={data?.image} alt="character-image" className="md:mr-12" />
+                <img src={data?.image} alt="character-image" className="rounded md:mr-12" />
                 <div className="flex flex-col justify-center md:items-start">
                     <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Name:</b>{data?.name}</div>
                     <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Status:</b>{data?.status}</div>
