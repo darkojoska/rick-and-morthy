@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { Link, RouteChildrenProps, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import Card from "./Card";
 
@@ -17,32 +17,22 @@ interface ISelectedItem {
 export default function CharactersGrid() {
     const history = useHistory();
     const location = useLocation();
+    const searchParams = location.search;
+    const paramsPage = Number(searchParams.substring(searchParams.indexOf('=') + 1));
 
     const baseUrl = 'https://rickandmortyapi.com/api/character/?page=';
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [url, setUrl] = useState(`${baseUrl}${currentPage}`);
-
+    const url = `${baseUrl}${paramsPage}`;
     const { loading, error, data, totalPages } = useFetch<ICharacter[]>(url);
+
+    const [currentPage, setCurrentPage] = useState(paramsPage || 1);
 
     const handlePageClick = ({ selected }: ISelectedItem) => {
         const newPage = selected + 1;
+
         setCurrentPage(newPage);
         history.push(`?page=${newPage}`);
         window.scrollTo(0, 0); // scroll to top of the page
     }
-
-    useEffect(() => {
-        const searchParam = location.search;
-
-        if (searchParam) {
-            // getting page number from router's location object. example: "?/page=9"
-            const page = Number(searchParam.substring(searchParam.indexOf('=') + 1));
-
-            setCurrentPage(page);
-            setUrl(baseUrl + page);
-        }
-    }, [location]);
 
     if (error) {
         return <div>Error occured during request</div>

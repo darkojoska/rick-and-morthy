@@ -14,22 +14,22 @@ function useFetch<T = unknown>(url: string): IState<T> {
     const [data, setData] = useState<T | null>(null);
     const [totalPages, setTotalPages] = useState(0);
 
-    function fetchData() {
-        axios.get(url)
-            .then(res => {
-                const { data } = res;
-                setTotalPages(data.info?.pages); 
-                setData(data.results ? data.results : data);
-            })
-            .catch(error => {
-                setError(true);
-            })
-            .finally(() => {
-                setLoading(false);
-            })
-    }
-
     useEffect(() => {
+        function fetchData() {
+            axios.get(url)
+                .then(res => {
+                    const { data } = res;
+                    setTotalPages(data.info?.pages); 
+                    setData(data.results ? data.results : data);
+                })
+                .catch(error => {
+                    setError(true);
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        }
+
         fetchData();
     }, [url])
 
