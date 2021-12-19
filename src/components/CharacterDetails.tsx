@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { RouteComponentProps, useParams } from "react-router-dom"
 import useFetch from "../hooks/useFetch";
 
 interface ICharacter {
@@ -16,9 +16,13 @@ interface ICharacter {
     episode: string[]
 }
 
-function CharacterDetails() {
-    const params = useParams();
-    const url = `https://rickandmortyapi.com/api/character/${params.id}`;
+interface MatchParams {
+    id: string
+}
+
+function CharacterDetails({ match }: RouteComponentProps<MatchParams>) {
+    const characterId = match?.params?.id
+    const url = `https://rickandmortyapi.com/api/character/${characterId}`;
     const { loading, error, data } = useFetch<ICharacter>(url);
 
     if (error) {
@@ -34,7 +38,7 @@ function CharacterDetails() {
             <h2 className="my-16">Character details</h2>
             <div className="flex flex-col mb-20 justify-center md:flex-row">
                 <img src={data?.image} alt="character-image" className="rounded md:mr-12" />
-                <div className="flex flex-col justify-center md:items-start">
+                <div className="flex flex-col mt-8 justify-center md:mt-0 md:items-start">
                     <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Name:</b>{data?.name}</div>
                     <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Status:</b>{data?.status}</div>
                     <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Species:</b>{data?.species}</div>

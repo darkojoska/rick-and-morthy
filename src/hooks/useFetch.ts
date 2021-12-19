@@ -5,17 +5,20 @@ interface IState<T> {
     loading: boolean
     error: boolean
     data: T | null
+    totalPages: number
 }
 
 function useFetch<T = unknown>(url: string): IState<T> {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [data, setData] = useState<T | null>(null);
+    const [totalPages, setTotalPages] = useState(0);
 
     function fetchData() {
         axios.get(url)
             .then(res => {
-                const { data } = res;            
+                const { data } = res;
+                setTotalPages(data.info?.pages); 
                 setData(data.results ? data.results : data);
             })
             .catch(error => {
@@ -30,7 +33,7 @@ function useFetch<T = unknown>(url: string): IState<T> {
         fetchData();
     }, [url])
 
-    return {loading, error, data};
+    return {loading, error, data, totalPages};
 }
 
 export default useFetch
