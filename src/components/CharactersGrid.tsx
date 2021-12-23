@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { idText } from "typescript";
 import useFetch from "../hooks/useFetch";
 import Card from "./Card";
 
@@ -26,7 +25,7 @@ export default function CharactersGrid() {
     const url = `${baseUrl}${paramsPage}`;
     const { loading, error, data, totalPages } = useFetch<ICharacter[]>(url);
 
-    const [currentPage, setCurrentPage] = useState(paramsPage || 1);
+    const [currentPage, setCurrentPage] = useState(paramsPage || 1); // api has a bug to return same pages for 0 and 1 so we start from 1
 
     const handlePageClick = ({ selected }: ISelectedItem) => {
         const newPage = selected + 1;
