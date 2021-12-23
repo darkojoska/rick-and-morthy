@@ -1,4 +1,4 @@
-import { RouteComponentProps, useParams } from "react-router-dom"
+import { RouteComponentProps } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 
 interface ICharacter {
@@ -20,7 +20,7 @@ interface MatchParams {
     id: string
 }
 
-function CharacterDetails({ match }: RouteComponentProps<MatchParams>) {
+function CharacterDetails({ match }: RouteComponentProps<MatchParams>) {   
     const characterId = match?.params?.id
     const url = `https://rickandmortyapi.com/api/character/${characterId}`;
     const { loading, error, data } = useFetch<ICharacter>(url);
@@ -37,15 +37,15 @@ function CharacterDetails({ match }: RouteComponentProps<MatchParams>) {
         <>
             <h2 className="my-16">Character details</h2>
             <div className="flex flex-col mb-20 justify-center md:flex-row">
-                <img src={data?.image} alt="character-image" className="rounded md:mr-12" />
+                <img src={data?.image} alt="character" className="rounded md:mr-12" />
                 <div className="flex flex-col mt-8 justify-center md:mt-0 md:items-start">
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Name:</b>{data?.name}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Status:</b>{data?.status}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Species:</b>{data?.species}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Gender:</b>{data?.gender}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Origin:</b>{data?.origin.name}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Last Known Location:</b>{data?.location.name}</div>
-                    <div className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Number of Episodes:</b>{data?.episode.length}</div>
+                    <div data-testid='character-name' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Name:</b>{data?.name}</div>
+                    <div data-testid='character-status' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Status:</b>{data?.status}</div>
+                    <div data-testid='character-species' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Species:</b>{data?.species}</div>
+                    <div data-testid='character-gender' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Gender:</b>{data?.gender}</div>
+                    <div data-testid='character-origin' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Origin:</b>{data?.origin.name}</div>
+                    <div data-testid='character-location' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Last Known Location:</b>{data?.location.name}</div>
+                    <div data-testid='character-episodes' className="text-start text-xl my-2 flex flex-col md:flex-row"><b className="mr-3">Number of Episodes:</b>{data?.episode.length}</div>
                 </div>
             </div>
         </>

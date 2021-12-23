@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { idText } from "typescript";
 import useFetch from "../hooks/useFetch";
 import Card from "./Card";
 
@@ -17,6 +18,7 @@ interface ISelectedItem {
 export default function CharactersGrid() {
     const history = useHistory();
     const location = useLocation();
+    
     const searchParams = location.search;
     const paramsPage = Number(searchParams.substring(searchParams.indexOf('=') + 1));
 
@@ -45,11 +47,11 @@ export default function CharactersGrid() {
     return (
         <div className="mb-24">
             <h2 className='my-16'>All characters</h2>
-            <div className="grid gap-16 mb-24 md:grid-cols-2 lg:grid-cols-3">
+            <div data-testid='grid' className="grid gap-16 mb-24 md:grid-cols-2 lg:grid-cols-3">
                 {
-                    data?.map(item =>
-                        <Link to={`/characters/${item.id}`} key={item.id} className="justify-self-center">
-                            <Card id={item.id} name={item.name} image={item.image} />
+                    data?.map((item, i) =>
+                        <Link data-testid={i.toString()} to={`/characters/${item.id}`} key={item.id} className="justify-self-center">
+                            <Card name={item.name} image={item.image} />
                         </Link>
                     )
                 }
@@ -59,7 +61,7 @@ export default function CharactersGrid() {
                 nextLabel={currentPage !== totalPages ? "next >" : ""}
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={1}
-                pageCount={totalPages}
+                pageCount={totalPages || 1}
                 forcePage={currentPage - 1}
                 previousLabel={currentPage > 1 ? "< previous" : ""}
                 className="flex flex-row justify-center items-center"

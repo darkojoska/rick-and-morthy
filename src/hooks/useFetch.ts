@@ -5,22 +5,25 @@ interface IState<T> {
     loading: boolean
     error: boolean
     data: T | null
-    totalPages: number
+    totalPages: number | null
+    totalItems: number | null
 }
 
 function useFetch<T = unknown>(url: string): IState<T> {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [data, setData] = useState<T | null>(null);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState<number | null>(null);
+    const [totalItems, setTotalItems] = useState<number | null>(null);
 
     useEffect(() => {
         function fetchData() {
             axios.get(url)
                 .then(res => {
-                    const { data } = res;
-                    setTotalPages(data.info?.pages); 
-                    setData(data.results ? data.results : data);
+                    const apiData = res.data;
+                    setTotalItems(apiData.info?.count || null);
+                    setTotalPages(apiData.info?.pages || null);
+                    setData(apiData.results ? apiData.results : apiData);
                 })
                 .catch(error => {
                     setError(true);
@@ -33,7 +36,7 @@ function useFetch<T = unknown>(url: string): IState<T> {
         fetchData();
     }, [url])
 
-    return {loading, error, data, totalPages};
+    return { loading, error, data, totalPages, totalItems };
 }
 
 export default useFetch
